@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تجميع أسئلة عملي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --card: #1a2235;
+    --border: #2a3a55;
+    --accent: #3b82f6;
+    --accent2: #8b5cf6;
+    --gold: #f59e0b;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --success: #10b981;
+    --danger: #ef4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(59,130,246,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(139,92,246,0.07) 0%, transparent 50%);
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: rgba(17,24,39,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+
+  .admin-toggle {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .admin-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ===== VIEWS ===== */
+  .view { display: none; padding: 40px 32px; max-width: 1000px; margin: 0 auto; }
+  .view.active { display: block; animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ===== ADMIN GATE ===== */
+  #admin-gate { text-align: center; padding: 80px 32px; }
+
+  .gate-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 48px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .gate-box h2 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 22px;
+    margin-bottom: 8px;
+    color: var(--gold);
+  }
+
+  .gate-box p { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+
+  .pin-input {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .pin-input input {
+    width: 52px;
+    height: 52px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  .pin-input input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+
+  /* ===== BUTTONS ===== */
+  .btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+    width: 100%;
+    justify-content: center;
+    font-size: 15px;
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(59,130,246,0.35); }
+
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .btn-ghost:hover { background: var(--card); border-color: var(--accent); }
+
+  .btn-danger {
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.3);
+    color: var(--danger);
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .btn-danger:hover { background: rgba(239,68,68,0.2); }
+
+  .btn-success {
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.3);
+    color: var(--success);
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+
+  .btn-add {
+    background: rgba(59,130,246,0.1);
+    border: 1px dashed var(--accent);
+    color: var(--accent);
+    width: 100%;
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .btn-add:hover { background: rgba(59,130,246,0.2); }
+
+  /* ===== ADMIN PANEL ===== */
+  .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+
+  .admin-header h1 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+  }
+
+  .badge-admin {
+    background: rgba(245,158,11,0.15);
+    border: 1px solid rgba(245,158,11,0.4);
+    color: var(--gold);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* ===== SUBJECT CARD ===== */
+  .subjects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .subject-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .subject-card:hover { border-color: rgba(59,130,246,0.4); }
+
+  .subject-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: rgba(59,130,246,0.05);
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+
+  .subject-name-display {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .subject-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .doctors-list {
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .doctor-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .doctor-name-display {
+    font-size: 15px;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .doctor-response-count {
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.25);
+    color: var(--success);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ===== RESPONSES VIEW ===== */
+  .responses-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .response-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .response-time {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    display: block;
+  }
+
+  .export-bar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 22px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .export-bar span { color: var(--muted); font-size: 14px; }
+  .export-bar strong { color: var(--text); }
+
+  /* ===== STUDENT VIEW ===== */
+  .student-hero {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 40px 20px 20px;
+  }
+
+  .student-hero h1 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .student-hero p { color: var(--muted); font-size: 15px; }
+
+  .subjects-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .subject-btn {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .subject-btn:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(59,130,246,0.15); }
+  .subject-btn.selected { border-color: var(--accent); background: rgba(59,130,246,0.1); color: var(--accent); }
+
+  .subject-btn .subject-icon { font-size: 28px; display: block; margin-bottom: 8px; }
+
+  .doctors-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .doctor-btn {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .doctor-btn:hover { border-color: var(--accent2); transform: translateY(-2px); }
+  .doctor-btn.selected { border-color: var(--accent2); background: rgba(139,92,246,0.1); color: var(--accent2); }
+
+  .step-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-num {
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .feedback-box {
+    width: 100%;
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    resize: vertical;
+    min-height: 140px;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.7;
+  }
+
+  .feedback-box:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+
+  .submit-section {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+
+  .btn-submit {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none;
+    color: white;
+    padding: 14px 36px;
+    border-radius: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(59,130,246,0.4); }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* ===== SUCCESS ===== */
+  .success-msg {
+    display: none;
+    text-align: center;
+    padding: 48px;
+    background: var(--card);
+    border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 20px;
+  }
+
+  .success-msg .icon { font-size: 56px; display: block; margin-bottom: 16px; }
+  .success-msg h3 { font-family: 'Tajawal', sans-serif; font-size: 22px; color: var(--success); margin-bottom: 8px; }
+  .success-msg p { color: var(--muted); font-size: 14px; }
+
+  /* ===== FORM ELEMENTS ===== */
+  .form-group { margin-bottom: 16px; }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .form-group input, .form-group select {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus, .form-group select:focus { border-color: var(--accent); }
+  .form-group select option { background: var(--surface); }
+
+  /* ===== COLLAPSIBLE ===== */
+  .collapse-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .collapse-header .arrow { transition: transform 0.2s; color: var(--muted); }
+  .collapse-header.open .arrow { transform: rotate(180deg); }
+  .collapse-body { display: none; padding-top: 16px; }
+  .collapse-body.open { display: block; }
+
+  /* ===== TABS ===== */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 24px;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .tab.active { background: var(--card); color: var(--text); }
+
+  /* ===== TOAST ===== */
+  #toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 999;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  #toast.show { transform: translateX(-50%) translateY(0); }
+  #toast.success { border-color: rgba(16,185,129,0.5); color: var(--success); }
+  #toast.error { border-color: rgba(239,68,68,0.5); color: var(--danger); }
+
+  /* ===== EMPTY STATE ===== */
+  .empty {
+    text-align: center;
+    padding: 48px;
+    color: var(--muted);
+  }
+
+  .empty .icon { font-size: 48px; display: block; margin-bottom: 12px; opacity: 0.5; }
+
+  /* ===== INLINE EDIT ===== */
+  .inline-edit {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .inline-input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    flex: 1;
+    outline: none;
+  }
+
+  .inline-input:focus { border-color: var(--accent); }
+
+  /* ===== STATS BAR ===== */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .stat-card .num { font-family: 'Tajawal', sans-serif; font-size: 28px; font-weight: 900; color: var(--accent); }
+  .stat-card .lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    width: 90%;
+    max-width: 480px;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .modal h3 { font-family: 'Tajawal', sans-serif; font-size: 18px; font-weight: 800; margin-bottom: 20px; }
+
+  .section-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .breadcrumb span { color: var(--text); font-weight: 600; }
+
+  @media (max-width: 600px) {
+    header { padding: 14px 20px; }
+    .view { padding: 24px 16px; }
+    .subjects-selector { grid-template-columns: repeat(2, 1fr); }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .subject-header { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">📋 تجميع أسئلة عملي</div>
+  <button class="admin-toggle" onclick="showAdminGate()">⚙️ لوحة المشرف</button>
+</header>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ===================== STUDENT VIEW ===================== -->
+<div id="view-student" class="view active">
+  <div class="student-hero">
+    <h1>شاركنا رأيك</h1>
+    <p>اختر المادة والدكتور واكتب ملاحظتك — رأيك يفرق</p>
+  </div>
+
+  <div id="survey-form">
+    <!-- STEP 1: Subject -->
+    <div class="step-label"><span class="step-num">1</span> اختر المادة</div>
+    <div class="subjects-selector" id="student-subjects"></div>
+
+    <!-- STEP 2: Doctor -->
+    <div id="step2" style="display:none">
+      <div class="section-divider"></div>
+      <div class="step-label"><span class="step-num">2</span> اختر الدكتور</div>
+      <div class="doctors-selector" id="student-doctors"></div>
+    </div>
+
+    <!-- STEP 3: Response -->
+    <div id="step3" style="display:none">
+      <div class="section-divider"></div>
+      <div class="step-label"><span class="step-num">3</span> اكتب ملاحظتك</div>
+      <div id="breadcrumb-display" class="breadcrumb"></div>
+      <textarea class="feedback-box" id="student-feedback" placeholder="اكتب رأيك هنا بكل صراحة..."></textarea>
+      <div class="submit-section">
+        <button class="btn btn-ghost" onclick="resetForm()">بدء من جديد</button>
+        <button class="btn-submit" onclick="submitFeedback()">إرسال ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="success-msg" id="success-msg">
+    <span class="icon">🎉</span>
+    <h3>شكراً على مشاركتك!</h3>
+    <p>تم تسجيل رأيك بنجاح</p>
+    <br>
+    <button class="btn btn-ghost" onclick="resetForm()" style="margin: auto; display: block;">إرسال إجابة أخرى</button>
+  </div>
+</div>
+
+<!-- ===================== ADMIN GATE ===================== -->
+<div id="view-admin-gate" class="view">
+  <div id="admin-gate">
+    <div class="gate-box">
+      <h2>🔐 لوحة المشرف</h2>
+      <p>أدخل رمز PIN للدخول</p>
+      <div class="pin-input">
+        <input type="password" maxlength="1" class="pin-digit" id="p1" oninput="moveFocus(this,'p2')" onkeydown="handlePinKey(event)">
+        <input type="password" maxlength="1" class="pin-digit" id="p2" oninput="moveFocus(this,'p3')" onkeydown="handlePinKey(event)">
+        <input type="password" maxlength="1" class="pin-digit" id="p3" oninput="moveFocus(this,'p4')" onkeydown="handlePinKey(event)">
+        <input type="password" maxlength="1" class="pin-digit" id="p4" oninput="moveFocus(this,null)" onkeydown="handlePinKey(event)">
+      </div>
+      <button class="btn btn-primary" onclick="checkPin()">دخول</button>
+      <br><br>
+      <button class="btn btn-ghost" onclick="showView('view-student')" style="width:100%;justify-content:center;">عودة لنموذج الطلاب</button>
+      <br>
+      <small style="color:var(--muted);font-size:11px;display:block;margin-top:12px;">الرمز الافتراضي: اخرج دي للأدمن بس </small>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADMIN PANEL ===================== -->
+<div id="view-admin" class="view">
+  <div class="admin-header">
+    <div>
+      <h1>لوحة التحكم <span class="badge-admin">مشرف</span></h1>
+    </div>
+    <button class="btn btn-ghost" onclick="showView('view-student')">↩ خروج</button>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('tab-structure', this)">🗂️ هيكل الموقع</button>
+    <button class="tab" onclick="switchTab('tab-responses', this)">📥 الإجابات</button>
+    <button class="tab" onclick="switchTab('tab-settings', this)">⚙️ الإعدادات</button>
+  </div>
+
+  <!-- TAB: STRUCTURE -->
+  <div id="tab-structure" class="tab-content">
+    <div class="stats-bar" id="admin-stats"></div>
+    <button class="btn btn-add" onclick="openAddSubject()">+ إضافة مادة جديدة</button>
+    <div style="height:20px"></div>
+    <div class="subjects-grid" id="admin-subjects"></div>
+  </div>
+
+  <!-- TAB: RESPONSES -->
+  <div id="tab-responses" class="tab-content" style="display:none">
+    <div class="form-group">
+      <label>تصفية حسب المادة</label>
+      <select id="filter-subject" onchange="renderResponses()">
+        <option value="">كل المواد</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>تصفية حسب الدكتور</label>
+      <select id="filter-doctor" onchange="renderResponses()">
+        <option value="">كل الدكاترة</option>
+      </select>
+    </div>
+    <div id="responses-area"></div>
+  </div>
+
+  <!-- TAB: SETTINGS -->
+  <div id="tab-settings" class="tab-content" style="display:none">
+    <div class="subject-card" style="padding:24px">
+      <h3 style="margin-bottom:20px;font-family:Tajawal,sans-serif">🔐 تغيير رمز PIN</h3>
+      <div class="form-group">
+        <label>الرمز الحالي</label>
+        <input type="password" id="current-pin" placeholder="****" maxlength="4">
+      </div>
+      <div class="form-group">
+        <label>الرمز الجديد</label>
+        <input type="password" id="new-pin" placeholder="****" maxlength="4">
+      </div>
+      <div class="form-group">
+        <label>تأكيد الرمز الجديد</label>
+        <input type="password" id="confirm-pin" placeholder="****" maxlength="4">
+      </div>
+      <button class="btn btn-primary" onclick="changePin()" style="max-width:200px">حفظ الرمز</button>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="subject-card" style="padding:24px">
+      <h3 style="margin-bottom:8px;font-family:Tajawal,sans-serif;color:var(--danger)">🗑️ مسح كل البيانات</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:16px">تحذير: هذا الإجراء لا يمكن التراجع عنه</p>
+      <button class="btn btn-danger" onclick="confirmClearAll()" style="font-size:14px;padding:10px 20px">مسح كل الإجابات</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADD SUBJECT MODAL ===================== -->
+<div class="modal-overlay" id="modal-subject">
+  <div class="modal">
+    <h3>➕ إضافة مادة</h3>
+    <div class="form-group">
+      <label>اسم المادة</label>
+      <input type="text" id="new-subject-name" placeholder="مثال: رياضيات 101">
+    </div>
+    <div class="form-group">
+      <label>أيقونة (إيموجي)</label>
+      <input type="text" id="new-subject-icon" placeholder="📚" maxlength="2" style="font-size:20px;text-align:center;width:80px">
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-ghost" onclick="closeModal('modal-subject')">إلغاء</button>
+      <button class="btn btn-primary" style="width:auto" onclick="addSubject()">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADD DOCTOR MODAL ===================== -->
+<div class="modal-overlay" id="modal-doctor">
+  <div class="modal">
+    <h3>➕ إضافة دكتور</h3>
+    <input type="hidden" id="doctor-subject-id">
+    <div class="form-group">
+      <label>اسم الدكتور / الدكتورة</label>
+      <input type="text" id="new-doctor-name" placeholder="د. محمد العمري">
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+      <button class="btn btn-ghost" onclick="closeModal('modal-doctor')">إلغاء</button>
+      <button class="btn btn-primary" style="width:auto" onclick="addDoctor()">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== STATE =====================
+const STORAGE_KEYS = {
+  subjects: 'nwq_subjects',
+  responses: 'nwq_responses',
+  pin: 'nwq_pin',
+};
+
+function getSubjects() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.subjects)) || []; } catch { return []; }
+}
+
+function saveSubjects(s) {
+  localStorage.setItem(STORAGE_KEYS.subjects, JSON.stringify(s));
+}
+
+function getResponses() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.responses)) || []; } catch { return []; }
+}
+
+function saveResponses(r) {
+  localStorage.setItem(STORAGE_KEYS.responses, JSON.stringify(r));
+}
+
+function getPin() {
+  return localStorage.getItem(STORAGE_KEYS.pin) || '1980';
+}
+
+// ===================== VIEWS =====================
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showAdminGate() {
+  clearPinInputs();
+  showView('view-admin-gate');
+}
+
+function clearPinInputs() {
+  ['p1','p2','p3','p4'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('p1').focus();
+}
+
+function moveFocus(el, nextId) {
+  if (el.value && nextId) document.getElementById(nextId).focus();
+}
+
+function handlePinKey(e) {
+  if (e.key === 'Enter') checkPin();
+}
+
+function checkPin() {
+  const entered = ['p1','p2','p3','p4'].map(id => document.getElementById(id).value).join('');
+  if (entered === getPin()) {
+    showView('view-admin');
+    renderAdminPanel();
+  } else {
+    showToast('رمز PIN غير صحيح', 'error');
+    clearPinInputs();
+  }
+}
+
+// ===================== TABS =====================
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(tabId).style.display = 'block';
+  btn.classList.add('active');
+  if (tabId === 'tab-responses') {
+    populateFilterDropdowns();
+    renderResponses();
+  }
+}
+
+// ===================== ADMIN PANEL =====================
+function renderAdminPanel() {
+  const subjects = getSubjects();
+  const responses = getResponses();
+
+  // Stats
+  const statsBar = document.getElementById('admin-stats');
+  statsBar.innerHTML = `
+    <div class="stat-card"><div class="num">${subjects.length}</div><div class="lbl">مادة</div></div>
+    <div class="stat-card"><div class="num">${subjects.reduce((a,s)=>a+s.doctors.length,0)}</div><div class="lbl">دكتور</div></div>
+    <div class="stat-card"><div class="num">${responses.length}</div><div class="lbl">إجابة</div></div>
+  `;
+
+  // Subjects
+  const container = document.getElementById('admin-subjects');
+  if (subjects.length === 0) {
+    container.innerHTML = '<div class="empty"><span class="icon">📭</span>لا توجد مواد بعد. أضف أولى!</div>';
+    return;
+  }
+
+  container.innerHTML = subjects.map((sub, si) => {
+    const subResponses = responses.filter(r => r.subjectId === sub.id);
+    return `
+    <div class="subject-card">
+      <div class="subject-header">
+        <div style="display:flex;align-items:center;gap:10px;flex:1">
+          <span style="font-size:22px">${sub.icon || '📚'}</span>
+          <span class="subject-name-display">${sub.name}</span>
+        </div>
+        <div class="subject-actions">
+          <span style="font-size:12px;color:var(--muted)">${subResponses.length} إجابة</span>
+          <button class="btn btn-success" onclick="openAddDoctor('${sub.id}')">+ دكتور</button>
+          <button class="btn btn-danger" onclick="deleteSubject('${sub.id}')">حذف</button>
+        </div>
+      </div>
+      <div class="doctors-list">
+        ${sub.doctors.length === 0
+          ? '<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px">لا يوجد دكاترة — اضغط "+ دكتور" لإضافة</div>'
+          : sub.doctors.map(doc => {
+              const docResponses = responses.filter(r => r.subjectId === sub.id && r.doctorId === doc.id);
+              return `
+              <div class="doctor-row">
+                <span class="doctor-name-display">👤 ${doc.name}</span>
+                <span class="doctor-response-count">${docResponses.length} إجابة</span>
+                <button class="btn btn-danger" onclick="deleteDoctor('${sub.id}','${doc.id}')">حذف</button>
+              </div>`;
+            }).join('')
+        }
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===================== ADD/DELETE =====================
+function openAddSubject() {
+  document.getElementById('new-subject-name').value = '';
+  document.getElementById('new-subject-icon').value = '📚';
+  document.getElementById('modal-subject').classList.add('open');
+  setTimeout(() => document.getElementById('new-subject-name').focus(), 100);
+}
+
+function addSubject() {
+  const name = document.getElementById('new-subject-name').value.trim();
+  const icon = document.getElementById('new-subject-icon').value.trim() || '📚';
+  if (!name) return showToast('اكتب اسم المادة', 'error');
+  const subjects = getSubjects();
+  subjects.push({ id: 'sub_' + Date.now(), name, icon, doctors: [] });
+  saveSubjects(subjects);
+  closeModal('modal-subject');
+  renderAdminPanel();
+  renderStudentView();
+  showToast('تمت إضافة المادة ✓');
+}
+
+function deleteSubject(subId) {
+  if (!confirm('هل تريد حذف هذه المادة وكل بياناتها؟')) return;
+  let subjects = getSubjects();
+  subjects = subjects.filter(s => s.id !== subId);
+  saveSubjects(subjects);
+  let responses = getResponses();
+  responses = responses.filter(r => r.subjectId !== subId);
+  saveResponses(responses);
+  renderAdminPanel();
+  renderStudentView();
+  showToast('تم الحذف');
+}
+
+function openAddDoctor(subId) {
+  document.getElementById('doctor-subject-id').value = subId;
+  document.getElementById('new-doctor-name').value = '';
+  document.getElementById('modal-doctor').classList.add('open');
+  setTimeout(() => document.getElementById('new-doctor-name').focus(), 100);
+}
+
+function addDoctor() {
+  const name = document.getElementById('new-doctor-name').value.trim();
+  const subId = document.getElementById('doctor-subject-id').value;
+  if (!name) return showToast('اكتب اسم الدكتور', 'error');
+  const subjects = getSubjects();
+  const sub = subjects.find(s => s.id === subId);
+  if (!sub) return;
+  sub.doctors.push({ id: 'doc_' + Date.now(), name });
+  saveSubjects(subjects);
+  closeModal('modal-doctor');
+  renderAdminPanel();
+  renderStudentView();
+  showToast('تمت إضافة الدكتور ✓');
+}
+
+function deleteDoctor(subId, docId) {
+  if (!confirm('حذف هذا الدكتور؟')) return;
+  const subjects = getSubjects();
+  const sub = subjects.find(s => s.id === subId);
+  if (!sub) return;
+  sub.doctors = sub.doctors.filter(d => d.id !== docId);
+  saveSubjects(subjects);
+  let responses = getResponses();
+  responses = responses.filter(r => !(r.subjectId === subId && r.doctorId === docId));
+  saveResponses(responses);
+  renderAdminPanel();
+  renderStudentView();
+  showToast('تم الحذف');
+}
+
+// ===================== MODALS =====================
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+});
+
+// ===================== RESPONSES =====================
+function populateFilterDropdowns() {
+  const subjects = getSubjects();
+  const fSub = document.getElementById('filter-subject');
+  const fDoc = document.getElementById('filter-doctor');
+
+  const prevSub = fSub.value;
+  fSub.innerHTML = '<option value="">كل المواد</option>' +
+    subjects.map(s => `<option value="${s.id}">${s.icon} ${s.name}</option>`).join('');
+  fSub.value = prevSub;
+
+  const selectedSub = subjects.find(s => s.id === fSub.value);
+  fDoc.innerHTML = '<option value="">كل الدكاترة</option>' +
+    (selectedSub ? selectedSub.doctors : subjects.flatMap(s => s.doctors))
+      .map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+}
+
+document.getElementById('filter-subject').addEventListener('change', function() {
+  populateFilterDropdowns();
+  renderResponses();
+});
+
+function renderResponses() {
+  const subFilter = document.getElementById('filter-subject').value;
+  const docFilter = document.getElementById('filter-doctor').value;
+  let responses = getResponses();
+  const subjects = getSubjects();
+
+  if (subFilter) responses = responses.filter(r => r.subjectId === subFilter);
+  if (docFilter) responses = responses.filter(r => r.doctorId === docFilter);
+
+  responses = [...responses].reverse();
+
+  const area = document.getElementById('responses-area');
+
+  if (responses.length === 0) {
+    area.innerHTML = '<div class="empty"><span class="icon">📭</span>لا توجد إجابات بعد</div>';
+    return;
+  }
+
+  const exportBtn = `
+    <div class="export-bar">
+      <span>إجمالي الإجابات: <strong>${responses.length}</strong></span>
+      <button class="btn btn-success" onclick="exportResponses()">⬇️ تصدير CSV</button>
+    </div>`;
+
+  area.innerHTML = exportBtn + responses.map(r => {
+    const sub = subjects.find(s => s.id === r.subjectId);
+    const doc = sub?.doctors.find(d => d.id === r.doctorId);
+    return `
+    <div class="response-card">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+        <span style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:var(--accent);padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600">${sub?.icon || ''} ${sub?.name || 'مادة محذوفة'}</span>
+        <span style="background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);color:var(--accent2);padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600">👤 ${doc?.name || 'دكتور محذوف'}</span>
+      </div>
+      <div style="font-size:15px;line-height:1.7">${r.text.replace(/\n/g,'<br>')}</div>
+      <span class="response-time">${new Date(r.ts).toLocaleString('ar-SA')}</span>
+    </div>`;
+  }).join('');
+}
+
+function exportResponses() {
+  const subFilter = document.getElementById('filter-subject').value;
+  const docFilter = document.getElementById('filter-doctor').value;
+  let responses = getResponses();
+  const subjects = getSubjects();
+
+  if (subFilter) responses = responses.filter(r => r.subjectId === subFilter);
+  if (docFilter) responses = responses.filter(r => r.doctorId === docFilter);
+
+  const rows = [['المادة', 'الدكتور', 'الإجابة', 'التاريخ']];
+  responses.forEach(r => {
+    const sub = subjects.find(s => s.id === r.subjectId);
+    const doc = sub?.doctors.find(d => d.id === r.doctorId);
+    rows.push([sub?.name || '—', doc?.name || '—', r.text.replace(/,/g,'،'), new Date(r.ts).toLocaleString('ar-SA')]);
+  });
+
+  const csv = '\uFEFF' + rows.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'نتائج_الموقع.csv'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('تم التصدير ✓');
+}
+
+// ===================== SETTINGS =====================
+function changePin() {
+  const current = document.getElementById('current-pin').value;
+  const newP = document.getElementById('new-pin').value;
+  const confirm = document.getElementById('confirm-pin').value;
+
+  if (current !== getPin()) return showToast('الرمز الحالي غير صحيح', 'error');
+  if (newP.length < 4) return showToast('الرمز يجب أن يكون 4 أرقام', 'error');
+  if (newP !== confirm) return showToast('الرمزان الجديدان لا يتطابقان', 'error');
+
+  localStorage.setItem(STORAGE_KEYS.pin, newP);
+  document.getElementById('current-pin').value = '';
+  document.getElementById('new-pin').value = '';
+  document.getElementById('confirm-pin').value = '';
+  showToast('تم تغيير الرمز ✓');
+}
+
+function confirmClearAll() {
+  if (confirm('هل أنت متأكد تماماً من مسح كل الإجابات؟ لا يمكن التراجع!')) {
+    saveResponses([]);
+    renderAdminPanel();
+    showToast('تم مسح الإجابات');
+  }
+}
+
+// ===================== STUDENT VIEW =====================
+let selectedSubjectId = null;
+let selectedDoctorId = null;
+
+function renderStudentView() {
+  const subjects = getSubjects();
+  const container = document.getElementById('student-subjects');
+
+  if (subjects.length === 0) {
+    container.innerHTML = '<div style="color:var(--muted);font-size:14px">لا توجد مواد بعد. انتظر المشرف يضيف المواد.</div>';
+    return;
+  }
+
+  container.innerHTML = subjects.map(sub => `
+    <button class="subject-btn ${selectedSubjectId === sub.id ? 'selected' : ''}" onclick="selectSubject('${sub.id}')">
+      <span class="subject-icon">${sub.icon || '📚'}</span>
+      ${sub.name}
+    </button>
+  `).join('');
+}
+
+function selectSubject(subId) {
+  selectedSubjectId = subId;
+  selectedDoctorId = null;
+
+  document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+
+  const subjects = getSubjects();
+  const sub = subjects.find(s => s.id === subId);
+
+  document.getElementById('step2').style.display = 'block';
+  document.getElementById('step3').style.display = 'none';
+
+  const doctorContainer = document.getElementById('student-doctors');
+  doctorContainer.innerHTML = sub.doctors.map(doc => `
+    <button class="doctor-btn" onclick="selectDoctor('${doc.id}', this)">
+      👤 ${doc.name}
+    </button>
+  `).join('');
+
+  if (sub.doctors.length === 0) {
+    doctorContainer.innerHTML = '<div style="color:var(--muted);font-size:13px">لا يوجد دكاترة في هذه المادة</div>';
+  }
+
+  document.getElementById('step2').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function selectDoctor(docId, btn) {
+  selectedDoctorId = docId;
+
+  document.querySelectorAll('.doctor-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+
+  const subjects = getSubjects();
+  const sub = subjects.find(s => s.id === selectedSubjectId);
+  const doc = sub?.doctors.find(d => d.id === docId);
+
+  document.getElementById('breadcrumb-display').innerHTML =
+    `${sub?.icon || ''} <strong>${sub?.name}</strong> ← <span>👤 ${doc?.name}</span>`;
+
+  document.getElementById('step3').style.display = 'block';
+  document.getElementById('student-feedback').value = '';
+  document.getElementById('step3').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function submitFeedback() {
+  const text = document.getElementById('student-feedback').value.trim();
+  if (!selectedSubjectId || !selectedDoctorId) return showToast('اختر المادة والدكتور أولاً', 'error');
+  if (!text) return showToast('اكتب ملاحظتك أولاً', 'error');
+
+  const responses = getResponses();
+  responses.push({
+    id: 'r_' + Date.now(),
+    subjectId: selectedSubjectId,
+    doctorId: selectedDoctorId,
+    text,
+    ts: Date.now()
+  });
+  saveResponses(responses);
+
+  document.getElementById('survey-form').style.display = 'none';
+  document.getElementById('success-msg').style.display = 'block';
+}
+
+function resetForm() {
+  selectedSubjectId = null;
+  selectedDoctorId = null;
+  document.getElementById('survey-form').style.display = 'block';
+  document.getElementById('success-msg').style.display = 'none';
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step3').style.display = 'none';
+  document.getElementById('student-feedback').value = '';
+  renderStudentView();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===================== TOAST =====================
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  setTimeout(() => t.className = '', 2800);
+}
+
+// ===================== INIT =====================
+renderStudentView();
+</script>
+</body>
+</html>
