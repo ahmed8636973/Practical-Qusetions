@@ -32,7 +32,6 @@
       radial-gradient(ellipse at 80% 80%, rgba(139,92,246,0.07) 0%, transparent 50%);
   }
 
-  /* ===== HEADER ===== */
   header {
     background: rgba(17,24,39,0.95);
     backdrop-filter: blur(20px);
@@ -56,6 +55,29 @@
     letter-spacing: -0.5px;
   }
 
+  .cloud-badge {
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.3);
+    color: var(--success);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .cloud-badge .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--success);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
   .admin-toggle {
     background: transparent;
     border: 1px solid var(--border);
@@ -73,13 +95,44 @@
 
   .admin-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* ===== VIEWS ===== */
+  .header-actions { display: flex; align-items: center; gap: 12px; }
+
   .view { display: none; padding: 40px 32px; max-width: 1000px; margin: 0 auto; }
   .view.active { display: block; animation: fadeIn 0.3s ease; }
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ===== ADMIN GATE ===== */
+  /* LOADING SCREEN */
+  #loading-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 999;
+  }
+
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 16px;
+    color: var(--muted);
+  }
+
+  /* ADMIN GATE */
   #admin-gate { text-align: center; padding: 80px 32px; }
 
   .gate-box {
@@ -123,7 +176,6 @@
 
   .pin-input input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
 
-  /* ===== BUTTONS ===== */
   .btn {
     padding: 12px 24px;
     border-radius: 10px;
@@ -185,7 +237,6 @@
 
   .btn-add:hover { background: rgba(59,130,246,0.2); }
 
-  /* ===== ADMIN PANEL ===== */
   .admin-header {
     display: flex;
     align-items: center;
@@ -209,7 +260,6 @@
     font-weight: 600;
   }
 
-  /* ===== SUBJECT CARD ===== */
   .subjects-grid {
     display: flex;
     flex-direction: column;
@@ -280,14 +330,6 @@
     white-space: nowrap;
   }
 
-  /* ===== RESPONSES VIEW ===== */
-  .responses-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-
   .response-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -320,7 +362,6 @@
   .export-bar span { color: var(--muted); font-size: 14px; }
   .export-bar strong { color: var(--text); }
 
-  /* ===== STUDENT VIEW ===== */
   .student-hero {
     text-align: center;
     margin-bottom: 40px;
@@ -362,7 +403,6 @@
 
   .subject-btn:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(59,130,246,0.15); }
   .subject-btn.selected { border-color: var(--accent); background: rgba(59,130,246,0.1); color: var(--accent); }
-
   .subject-btn .subject-icon { font-size: 28px; display: block; margin-bottom: 8px; }
 
   .doctors-selector {
@@ -455,7 +495,6 @@
   .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(59,130,246,0.4); }
   .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-  /* ===== SUCCESS ===== */
   .success-msg {
     display: none;
     text-align: center;
@@ -469,7 +508,6 @@
   .success-msg h3 { font-family: 'Tajawal', sans-serif; font-size: 22px; color: var(--success); margin-bottom: 8px; }
   .success-msg p { color: var(--muted); font-size: 14px; }
 
-  /* ===== FORM ELEMENTS ===== */
   .form-group { margin-bottom: 16px; }
 
   .form-group label {
@@ -498,21 +536,6 @@
   .form-group input:focus, .form-group select:focus { border-color: var(--accent); }
   .form-group select option { background: var(--surface); }
 
-  /* ===== COLLAPSIBLE ===== */
-  .collapse-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .collapse-header .arrow { transition: transform 0.2s; color: var(--muted); }
-  .collapse-header.open .arrow { transform: rotate(180deg); }
-  .collapse-body { display: none; padding-top: 16px; }
-  .collapse-body.open { display: block; }
-
-  /* ===== TABS ===== */
   .tabs {
     display: flex;
     gap: 4px;
@@ -538,7 +561,6 @@
 
   .tab.active { background: var(--card); color: var(--text); }
 
-  /* ===== TOAST ===== */
   #toast {
     position: fixed;
     bottom: 30px;
@@ -559,7 +581,6 @@
   #toast.success { border-color: rgba(16,185,129,0.5); color: var(--success); }
   #toast.error { border-color: rgba(239,68,68,0.5); color: var(--danger); }
 
-  /* ===== EMPTY STATE ===== */
   .empty {
     text-align: center;
     padding: 48px;
@@ -568,30 +589,6 @@
 
   .empty .icon { font-size: 48px; display: block; margin-bottom: 12px; opacity: 0.5; }
 
-  /* ===== INLINE EDIT ===== */
-  .inline-edit {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-  }
-
-  .inline-input {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 12px;
-    color: var(--text);
-    font-family: 'Cairo', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    flex: 1;
-    outline: none;
-  }
-
-  .inline-input:focus { border-color: var(--accent); }
-
-  /* ===== STATS BAR ===== */
   .stats-bar {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -610,7 +607,6 @@
   .stat-card .num { font-family: 'Tajawal', sans-serif; font-size: 28px; font-weight: 900; color: var(--accent); }
   .stat-card .lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
-  /* ===== MODAL ===== */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -652,6 +648,24 @@
 
   .breadcrumb span { color: var(--text); font-weight: 600; }
 
+  .saving-indicator {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+  }
+
+  .saving-indicator.show { display: flex; }
+
   @media (max-width: 600px) {
     header { padding: 14px 20px; }
     .view { padding: 24px 16px; }
@@ -663,16 +677,28 @@
 </head>
 <body>
 
+<!-- LOADING -->
+<div id="loading-screen">
+  <div class="spinner"></div>
+  <div class="loading-text">جاري تحميل البيانات من السحابة...</div>
+</div>
+
 <!-- HEADER -->
 <header>
   <div class="logo">📋 تجميع أسئلة عملي</div>
-  <button class="admin-toggle" onclick="showAdminGate()">⚙️ لوحة المشرف</button>
+  <div class="header-actions">
+    <div class="cloud-badge"><div class="dot"></div>متزامن</div>
+    <button class="admin-toggle" onclick="showAdminGate()">⚙️ المشرف</button>
+  </div>
 </header>
 
-<!-- TOAST -->
 <div id="toast"></div>
+<div class="saving-indicator" id="saving-indicator">
+  <div class="spinner" style="width:14px;height:14px;border-width:2px"></div>
+  جاري الحفظ...
+</div>
 
-<!-- ===================== STUDENT VIEW ===================== -->
+<!-- STUDENT VIEW -->
 <div id="view-student" class="view active">
   <div class="student-hero">
     <h1>شاركنا رأيك</h1>
@@ -680,18 +706,15 @@
   </div>
 
   <div id="survey-form">
-    <!-- STEP 1: Subject -->
     <div class="step-label"><span class="step-num">1</span> اختر المادة</div>
     <div class="subjects-selector" id="student-subjects"></div>
 
-    <!-- STEP 2: Doctor -->
     <div id="step2" style="display:none">
       <div class="section-divider"></div>
       <div class="step-label"><span class="step-num">2</span> اختر الدكتور</div>
       <div class="doctors-selector" id="student-doctors"></div>
     </div>
 
-    <!-- STEP 3: Response -->
     <div id="step3" style="display:none">
       <div class="section-divider"></div>
       <div class="step-label"><span class="step-num">3</span> اكتب ملاحظتك</div>
@@ -707,50 +730,49 @@
   <div class="success-msg" id="success-msg">
     <span class="icon">🎉</span>
     <h3>شكراً على مشاركتك!</h3>
-    <p>تم تسجيل رأيك بنجاح</p>
+    <p>تم تسجيل رأيك بنجاح وحُفظ على السحابة</p>
     <br>
     <button class="btn btn-ghost" onclick="resetForm()" style="margin: auto; display: block;">إرسال إجابة أخرى</button>
   </div>
 </div>
 
-<!-- ===================== ADMIN GATE ===================== -->
+<!-- ADMIN GATE -->
 <div id="view-admin-gate" class="view">
   <div id="admin-gate">
     <div class="gate-box">
       <h2>🔐 لوحة المشرف</h2>
       <p>أدخل رمز PIN للدخول</p>
       <div class="pin-input">
-        <input type="password" maxlength="1" class="pin-digit" id="p1" oninput="moveFocus(this,'p2')" onkeydown="handlePinKey(event)">
-        <input type="password" maxlength="1" class="pin-digit" id="p2" oninput="moveFocus(this,'p3')" onkeydown="handlePinKey(event)">
-        <input type="password" maxlength="1" class="pin-digit" id="p3" oninput="moveFocus(this,'p4')" onkeydown="handlePinKey(event)">
-        <input type="password" maxlength="1" class="pin-digit" id="p4" oninput="moveFocus(this,null)" onkeydown="handlePinKey(event)">
+        <input type="password" maxlength="1" id="p1" oninput="moveFocus(this,'p2')" onkeydown="handlePinKey(event)">
+        <input type="password" maxlength="1" id="p2" oninput="moveFocus(this,'p3')" onkeydown="handlePinKey(event)">
+        <input type="password" maxlength="1" id="p3" oninput="moveFocus(this,'p4')" onkeydown="handlePinKey(event)">
+        <input type="password" maxlength="1" id="p4" oninput="moveFocus(this,null)" onkeydown="handlePinKey(event)">
       </div>
       <button class="btn btn-primary" onclick="checkPin()">دخول</button>
       <br><br>
       <button class="btn btn-ghost" onclick="showView('view-student')" style="width:100%;justify-content:center;">عودة لنموذج الطلاب</button>
-      <br>
-      <small style="color:var(--muted);font-size:11px;display:block;margin-top:12px;">الرمز الافتراضي: اخرج دي للأدمن بس </small>
     </div>
   </div>
 </div>
 
-<!-- ===================== ADMIN PANEL ===================== -->
+<!-- ADMIN PANEL -->
 <div id="view-admin" class="view">
   <div class="admin-header">
     <div>
       <h1>لوحة التحكم <span class="badge-admin">مشرف</span></h1>
     </div>
-    <button class="btn btn-ghost" onclick="showView('view-student')">↩ خروج</button>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-ghost" onclick="refreshData()">🔄 تحديث</button>
+      <button class="btn btn-ghost" onclick="showView('view-student')">↩ خروج</button>
+    </div>
   </div>
 
-  <!-- TABS -->
   <div class="tabs">
     <button class="tab active" onclick="switchTab('tab-structure', this)">🗂️ هيكل الموقع</button>
     <button class="tab" onclick="switchTab('tab-responses', this)">📥 الإجابات</button>
     <button class="tab" onclick="switchTab('tab-settings', this)">⚙️ الإعدادات</button>
   </div>
 
-  <!-- TAB: STRUCTURE -->
   <div id="tab-structure" class="tab-content">
     <div class="stats-bar" id="admin-stats"></div>
     <button class="btn btn-add" onclick="openAddSubject()">+ إضافة مادة جديدة</button>
@@ -758,7 +780,6 @@
     <div class="subjects-grid" id="admin-subjects"></div>
   </div>
 
-  <!-- TAB: RESPONSES -->
   <div id="tab-responses" class="tab-content" style="display:none">
     <div class="form-group">
       <label>تصفية حسب المادة</label>
@@ -775,7 +796,6 @@
     <div id="responses-area"></div>
   </div>
 
-  <!-- TAB: SETTINGS -->
   <div id="tab-settings" class="tab-content" style="display:none">
     <div class="subject-card" style="padding:24px">
       <h3 style="margin-bottom:20px;font-family:Tajawal,sans-serif">🔐 تغيير رمز PIN</h3>
@@ -804,7 +824,7 @@
   </div>
 </div>
 
-<!-- ===================== ADD SUBJECT MODAL ===================== -->
+<!-- ADD SUBJECT MODAL -->
 <div class="modal-overlay" id="modal-subject">
   <div class="modal">
     <h3>➕ إضافة مادة</h3>
@@ -823,7 +843,7 @@
   </div>
 </div>
 
-<!-- ===================== ADD DOCTOR MODAL ===================== -->
+<!-- ADD DOCTOR MODAL -->
 <div class="modal-overlay" id="modal-doctor">
   <div class="modal">
     <h3>➕ إضافة دكتور</h3>
@@ -840,31 +860,103 @@
 </div>
 
 <script>
-// ===================== STATE =====================
-const STORAGE_KEYS = {
-  subjects: 'nwq_subjects',
-  responses: 'nwq_responses',
-  pin: 'nwq_pin',
+// ===================== CLOUD STORAGE =====================
+// Uses window.storage API (shared=true) so all users share the same data
+
+const KEYS = {
+  subjects: 'nwq_subjects_v2',
+  responses: 'nwq_responses_v2',
+  pin: 'nwq_pin_v2',
 };
 
-function getSubjects() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.subjects)) || []; } catch { return []; }
+// In-memory cache
+let _subjects = [];
+let _responses = [];
+let _pin = '1980';
+
+async function loadAllData() {
+  try {
+    const [subRes, respRes, pinRes] = await Promise.all([
+      safeGet(KEYS.subjects, true),
+      safeGet(KEYS.responses, true),
+      safeGet(KEYS.pin, true),
+    ]);
+    _subjects = subRes ? JSON.parse(subRes) : [];
+    _responses = respRes ? JSON.parse(respRes) : [];
+    _pin = pinRes || '1980';
+  } catch(e) {
+    _subjects = [];
+    _responses = [];
+    _pin = '1980';
+  }
 }
 
-function saveSubjects(s) {
-  localStorage.setItem(STORAGE_KEYS.subjects, JSON.stringify(s));
+async function safeGet(key, shared) {
+  try {
+    const r = await window.storage.get(key, shared);
+    return r ? r.value : null;
+  } catch {
+    return null;
+  }
 }
 
-function getResponses() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.responses)) || []; } catch { return []; }
+async function safeSet(key, value, shared) {
+  try {
+    showSaving(true);
+    await window.storage.set(key, value, shared);
+    showSaving(false);
+    return true;
+  } catch(e) {
+    showSaving(false);
+    showToast('خطأ في الحفظ على السحابة', 'error');
+    return false;
+  }
 }
 
-function saveResponses(r) {
-  localStorage.setItem(STORAGE_KEYS.responses, JSON.stringify(r));
+function showSaving(show) {
+  document.getElementById('saving-indicator').classList.toggle('show', show);
 }
 
-function getPin() {
-  return localStorage.getItem(STORAGE_KEYS.pin) || '1980';
+function getSubjects() { return _subjects; }
+function getResponses() { return _responses; }
+function getPin() { return _pin; }
+
+async function saveSubjects(s) {
+  _subjects = s;
+  await safeSet(KEYS.subjects, JSON.stringify(s), true);
+  renderStudentView();
+}
+
+async function saveResponses(r) {
+  _responses = r;
+  await safeSet(KEYS.responses, JSON.stringify(r), true);
+}
+
+async function savePin(p) {
+  _pin = p;
+  await safeSet(KEYS.pin, p, true);
+}
+
+// ===================== INIT =====================
+async function init() {
+  if (!window.storage) {
+    // Fallback to localStorage if storage API not available
+    window.storage = {
+      get: async (k) => { const v = localStorage.getItem(k); return v ? {value:v} : null; },
+      set: async (k, v) => { localStorage.setItem(k, v); return {value:v}; },
+    };
+  }
+  await loadAllData();
+  document.getElementById('loading-screen').style.display = 'none';
+  renderStudentView();
+}
+
+async function refreshData() {
+  showToast('جاري التحديث...', 'success');
+  await loadAllData();
+  renderAdminPanel();
+  renderStudentView();
+  showToast('تم التحديث ✓');
 }
 
 // ===================== VIEWS =====================
@@ -891,9 +983,12 @@ function handlePinKey(e) {
   if (e.key === 'Enter') checkPin();
 }
 
-function checkPin() {
+async function checkPin() {
   const entered = ['p1','p2','p3','p4'].map(id => document.getElementById(id).value).join('');
-  if (entered === getPin()) {
+  // Refresh pin from cloud before checking
+  const latestPin = await safeGet(KEYS.pin, true) || '1980';
+  _pin = latestPin;
+  if (entered === _pin) {
     showView('view-admin');
     renderAdminPanel();
   } else {
@@ -919,7 +1014,6 @@ function renderAdminPanel() {
   const subjects = getSubjects();
   const responses = getResponses();
 
-  // Stats
   const statsBar = document.getElementById('admin-stats');
   statsBar.innerHTML = `
     <div class="stat-card"><div class="num">${subjects.length}</div><div class="lbl">مادة</div></div>
@@ -927,14 +1021,13 @@ function renderAdminPanel() {
     <div class="stat-card"><div class="num">${responses.length}</div><div class="lbl">إجابة</div></div>
   `;
 
-  // Subjects
   const container = document.getElementById('admin-subjects');
   if (subjects.length === 0) {
     container.innerHTML = '<div class="empty"><span class="icon">📭</span>لا توجد مواد بعد. أضف أولى!</div>';
     return;
   }
 
-  container.innerHTML = subjects.map((sub, si) => {
+  container.innerHTML = subjects.map((sub) => {
     const subResponses = responses.filter(r => r.subjectId === sub.id);
     return `
     <div class="subject-card">
@@ -975,29 +1068,25 @@ function openAddSubject() {
   setTimeout(() => document.getElementById('new-subject-name').focus(), 100);
 }
 
-function addSubject() {
+async function addSubject() {
   const name = document.getElementById('new-subject-name').value.trim();
   const icon = document.getElementById('new-subject-icon').value.trim() || '📚';
   if (!name) return showToast('اكتب اسم المادة', 'error');
   const subjects = getSubjects();
   subjects.push({ id: 'sub_' + Date.now(), name, icon, doctors: [] });
-  saveSubjects(subjects);
+  await saveSubjects(subjects);
   closeModal('modal-subject');
   renderAdminPanel();
-  renderStudentView();
   showToast('تمت إضافة المادة ✓');
 }
 
-function deleteSubject(subId) {
+async function deleteSubject(subId) {
   if (!confirm('هل تريد حذف هذه المادة وكل بياناتها؟')) return;
-  let subjects = getSubjects();
-  subjects = subjects.filter(s => s.id !== subId);
-  saveSubjects(subjects);
-  let responses = getResponses();
-  responses = responses.filter(r => r.subjectId !== subId);
-  saveResponses(responses);
+  let subjects = getSubjects().filter(s => s.id !== subId);
+  let responses = getResponses().filter(r => r.subjectId !== subId);
+  await saveSubjects(subjects);
+  await saveResponses(responses);
   renderAdminPanel();
-  renderStudentView();
   showToast('تم الحذف');
 }
 
@@ -1008,7 +1097,7 @@ function openAddDoctor(subId) {
   setTimeout(() => document.getElementById('new-doctor-name').focus(), 100);
 }
 
-function addDoctor() {
+async function addDoctor() {
   const name = document.getElementById('new-doctor-name').value.trim();
   const subId = document.getElementById('doctor-subject-id').value;
   if (!name) return showToast('اكتب اسم الدكتور', 'error');
@@ -1016,25 +1105,22 @@ function addDoctor() {
   const sub = subjects.find(s => s.id === subId);
   if (!sub) return;
   sub.doctors.push({ id: 'doc_' + Date.now(), name });
-  saveSubjects(subjects);
+  await saveSubjects(subjects);
   closeModal('modal-doctor');
   renderAdminPanel();
-  renderStudentView();
   showToast('تمت إضافة الدكتور ✓');
 }
 
-function deleteDoctor(subId, docId) {
+async function deleteDoctor(subId, docId) {
   if (!confirm('حذف هذا الدكتور؟')) return;
   const subjects = getSubjects();
   const sub = subjects.find(s => s.id === subId);
   if (!sub) return;
   sub.doctors = sub.doctors.filter(d => d.id !== docId);
-  saveSubjects(subjects);
-  let responses = getResponses();
-  responses = responses.filter(r => !(r.subjectId === subId && r.doctorId === docId));
-  saveResponses(responses);
+  let responses = getResponses().filter(r => !(r.subjectId === subId && r.doctorId === docId));
+  await saveSubjects(subjects);
+  await saveResponses(responses);
   renderAdminPanel();
-  renderStudentView();
   showToast('تم الحذف');
 }
 
@@ -1072,13 +1158,11 @@ document.getElementById('filter-subject').addEventListener('change', function() 
 function renderResponses() {
   const subFilter = document.getElementById('filter-subject').value;
   const docFilter = document.getElementById('filter-doctor').value;
-  let responses = getResponses();
+  let responses = [...getResponses()].reverse();
   const subjects = getSubjects();
 
   if (subFilter) responses = responses.filter(r => r.subjectId === subFilter);
   if (docFilter) responses = responses.filter(r => r.doctorId === docFilter);
-
-  responses = [...responses].reverse();
 
   const area = document.getElementById('responses-area');
 
@@ -1111,7 +1195,7 @@ function renderResponses() {
 function exportResponses() {
   const subFilter = document.getElementById('filter-subject').value;
   const docFilter = document.getElementById('filter-doctor').value;
-  let responses = getResponses();
+  let responses = [...getResponses()].reverse();
   const subjects = getSubjects();
 
   if (subFilter) responses = responses.filter(r => r.subjectId === subFilter);
@@ -1134,25 +1218,25 @@ function exportResponses() {
 }
 
 // ===================== SETTINGS =====================
-function changePin() {
+async function changePin() {
   const current = document.getElementById('current-pin').value;
   const newP = document.getElementById('new-pin').value;
-  const confirm = document.getElementById('confirm-pin').value;
+  const confirmP = document.getElementById('confirm-pin').value;
 
   if (current !== getPin()) return showToast('الرمز الحالي غير صحيح', 'error');
   if (newP.length < 4) return showToast('الرمز يجب أن يكون 4 أرقام', 'error');
-  if (newP !== confirm) return showToast('الرمزان الجديدان لا يتطابقان', 'error');
+  if (newP !== confirmP) return showToast('الرمزان الجديدان لا يتطابقان', 'error');
 
-  localStorage.setItem(STORAGE_KEYS.pin, newP);
+  await savePin(newP);
   document.getElementById('current-pin').value = '';
   document.getElementById('new-pin').value = '';
   document.getElementById('confirm-pin').value = '';
   showToast('تم تغيير الرمز ✓');
 }
 
-function confirmClearAll() {
+async function confirmClearAll() {
   if (confirm('هل أنت متأكد تماماً من مسح كل الإجابات؟ لا يمكن التراجع!')) {
-    saveResponses([]);
+    await saveResponses([]);
     renderAdminPanel();
     showToast('تم مسح الإجابات');
   }
@@ -1172,19 +1256,19 @@ function renderStudentView() {
   }
 
   container.innerHTML = subjects.map(sub => `
-    <button class="subject-btn ${selectedSubjectId === sub.id ? 'selected' : ''}" onclick="selectSubject('${sub.id}')">
+    <button class="subject-btn ${selectedSubjectId === sub.id ? 'selected' : ''}" onclick="selectSubject('${sub.id}', this)">
       <span class="subject-icon">${sub.icon || '📚'}</span>
       ${sub.name}
     </button>
   `).join('');
 }
 
-function selectSubject(subId) {
+function selectSubject(subId, btn) {
   selectedSubjectId = subId;
   selectedDoctorId = null;
 
   document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('selected'));
-  event.currentTarget.classList.add('selected');
+  btn.classList.add('selected');
 
   const subjects = getSubjects();
   const sub = subjects.find(s => s.id === subId);
@@ -1224,7 +1308,7 @@ function selectDoctor(docId, btn) {
   document.getElementById('step3').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function submitFeedback() {
+async function submitFeedback() {
   const text = document.getElementById('student-feedback').value.trim();
   if (!selectedSubjectId || !selectedDoctorId) return showToast('اختر المادة والدكتور أولاً', 'error');
   if (!text) return showToast('اكتب ملاحظتك أولاً', 'error');
@@ -1237,7 +1321,7 @@ function submitFeedback() {
     text,
     ts: Date.now()
   });
-  saveResponses(responses);
+  await saveResponses(responses);
 
   document.getElementById('survey-form').style.display = 'none';
   document.getElementById('success-msg').style.display = 'block';
@@ -1263,8 +1347,8 @@ function showToast(msg, type = 'success') {
   setTimeout(() => t.className = '', 2800);
 }
 
-// ===================== INIT =====================
-renderStudentView();
+// ===================== START =====================
+init();
 </script>
 </body>
 </html>
