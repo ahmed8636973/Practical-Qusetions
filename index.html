@@ -27,6 +27,16 @@
   .admin-toggle{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 16px;
     border-radius:8px;cursor:pointer;font-family:'Cairo',sans-serif;font-size:13px;transition:all .2s;}
   .admin-toggle:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* ── NAV TABS (top-level between student views) ── */
+  .main-nav{display:flex;gap:0;background:rgba(17,24,39,.9);border-bottom:1px solid var(--border);
+    padding:0 32px;position:sticky;top:65px;z-index:99;}
+  .main-nav-btn{padding:14px 22px;border:none;background:transparent;color:var(--muted);cursor:pointer;
+    font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;border-bottom:3px solid transparent;
+    transition:all .2s;display:flex;align-items:center;gap:6px;}
+  .main-nav-btn:hover{color:var(--text);}
+  .main-nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+
   .view{display:none;padding:40px 32px;max-width:1000px;margin:0 auto;}
   .view.active{display:block;animation:fadeIn .3s ease;}
   @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
@@ -138,11 +148,46 @@
   #saving-bar{display:none;position:fixed;top:0;left:0;right:0;height:3px;
     background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:9998;}
   #saving-bar.show{display:block;}
+
+  /* ── BROWSE VIEW specific ── */
+  .browse-hero{text-align:center;margin-bottom:32px;padding:32px 20px 16px;}
+  .browse-hero h1{font-family:'Tajawal',sans-serif;font-size:28px;font-weight:900;margin-bottom:6px;
+    background:linear-gradient(135deg,var(--gold),#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .browse-hero p{color:var(--muted);font-size:14px;}
+  .browse-filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
+  .browse-filters .form-group{flex:1;min-width:180px;margin-bottom:0;}
+  .browse-stats{display:flex;gap:10px;align-items:center;margin-bottom:20px;flex-wrap:wrap;}
+  .browse-count-badge{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:var(--accent);
+    padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;}
+  .browse-refresh{background:transparent;border:1px solid var(--border);color:var(--muted);padding:6px 14px;
+    border-radius:20px;font-size:13px;cursor:pointer;transition:all .2s;font-family:'Cairo',sans-serif;}
+  .browse-refresh:hover{border-color:var(--accent);color:var(--accent);}
+  .browse-response-card{background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:20px 22px;margin-bottom:14px;transition:border-color .2s,transform .15s;}
+  .browse-response-card:hover{border-color:rgba(59,130,246,.35);transform:translateY(-1px);}
+  .browse-card-meta{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+  .meta-badge{padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;}
+  .meta-subject{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);color:var(--accent);}
+  .meta-doctor{background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);color:var(--accent2);}
+  .browse-card-text{font-size:15px;line-height:1.8;color:var(--text);}
+  .browse-card-time{font-size:11px;color:var(--muted);margin-top:10px;display:block;}
+  .browse-group-header{font-family:'Tajawal',sans-serif;font-size:16px;font-weight:800;
+    color:var(--accent);margin:28px 0 14px;display:flex;align-items:center;gap:8px;
+    padding-bottom:10px;border-bottom:1px solid var(--border);}
+  .browse-group-count{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.25);
+    color:var(--accent);padding:2px 10px;border-radius:20px;font-size:12px;}
+  .loading-responses{text-align:center;padding:48px;color:var(--muted);}
+  .loading-responses .spin{display:inline-block;width:32px;height:32px;border:3px solid var(--border);
+    border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:12px;}
+
   @media(max-width:600px){
     header{padding:14px 20px;} .view{padding:24px 16px;}
     .subjects-selector{grid-template-columns:repeat(2,1fr);}
     .stats-bar{grid-template-columns:repeat(2,1fr);}
     .subject-header{flex-direction:column;align-items:flex-start;}
+    .main-nav{padding:0 16px;}
+    .main-nav-btn{padding:12px 14px;font-size:13px;}
+    .browse-filters{flex-direction:column;}
   }
 </style>
 </head>
@@ -161,9 +206,16 @@
     <button class="admin-toggle" onclick="showAdminGate()">⚙️ المشرف</button>
   </div>
 </header>
+
+<!-- MAIN NAV -->
+<nav class="main-nav">
+  <button class="main-nav-btn active" id="nav-submit" onclick="switchMainView('view-student', this)">✍️ أرسل سؤال</button>
+  <button class="main-nav-btn" id="nav-browse" onclick="switchMainView('view-browse', this)">📖 تصفح الأسئلة</button>
+</nav>
+
 <div id="toast"></div>
 
-<!-- STUDENT -->
+<!-- STUDENT SUBMIT -->
 <div id="view-student" class="view active">
   <div class="student-hero">
     <h1>شاركنا </h1>
@@ -194,6 +246,38 @@
     <h3>شكراً على مشاركتك!</h3>
     <p>تم تسجيل إجابتك على السحابة ✓</p><br>
     <button class="btn btn-ghost" onclick="resetForm()" style="margin:auto;display:block;">إرسال إجابة أخرى</button>
+  </div>
+</div>
+
+<!-- BROWSE QUESTIONS (read-only) -->
+<div id="view-browse" class="view">
+  <div class="browse-hero">
+    <h1>📖 تصفح الأسئلة</h1>
+    <p>اقرأ كل الأسئلة المسجلة — فلتر حسب المادة أو الدكتور</p>
+  </div>
+
+  <div class="browse-filters">
+    <div class="form-group">
+      <label>المادة</label>
+      <select id="browse-filter-subject" onchange="onBrowseSubjectChange()">
+        <option value="">كل المواد</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>الدكتور</label>
+      <select id="browse-filter-doctor" onchange="renderBrowse()">
+        <option value="">كل الدكاترة</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="browse-stats">
+    <span class="browse-count-badge" id="browse-count-badge">0 سؤال</span>
+    <button class="browse-refresh" onclick="reloadAndBrowse()">🔄 تحديث</button>
+  </div>
+
+  <div id="browse-area">
+    <div class="loading-responses"><div class="spin"></div><br>جاري التحميل...</div>
   </div>
 </div>
 
@@ -356,11 +440,33 @@ function showToast(msg, type="success"){
 window.showToast = showToast;
 
 // ═══════════════════════════════════════════════════════════
+//  Main Nav (student pages)
+// ═══════════════════════════════════════════════════════════
+window.switchMainView = (viewId, btn)=>{
+  // hide only student-facing views (not admin)
+  ["view-student","view-browse"].forEach(id=>{
+    document.getElementById(id).classList.remove("active");
+  });
+  document.querySelectorAll(".main-nav-btn").forEach(b=>b.classList.remove("active"));
+  document.getElementById(viewId).classList.add("active");
+  btn.classList.add("active");
+  if(viewId==="view-browse"){
+    populateBrowseFilters();
+    renderBrowse();
+  }
+};
+
+// ═══════════════════════════════════════════════════════════
 //  Views
 // ═══════════════════════════════════════════════════════════
 function showView(id){
   document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
   document.getElementById(id).classList.add("active");
+  // keep main nav highlighting correct when returning to student views
+  if(id==="view-student"){
+    document.querySelectorAll(".main-nav-btn").forEach(b=>b.classList.remove("active"));
+    document.getElementById("nav-submit").classList.add("active");
+  }
 }
 window.showView = showView;
 
@@ -375,7 +481,6 @@ window.handlePinKey = e=>{ if(e.key==="Enter") window.checkPin(); };
 
 window.checkPin = async ()=>{
   const entered=["p1","p2","p3","p4"].map(i=>document.getElementById(i).value).join("");
-  // re-read from Firestore for latest pin
   try{
     const s=await getDoc(CONFIG_REF);
     if(s.exists()) _pin=s.data().pin||"1980";
@@ -391,7 +496,7 @@ window.checkPin = async ()=>{
 };
 
 // ═══════════════════════════════════════════════════════════
-//  Tabs
+//  Tabs (admin)
 // ═══════════════════════════════════════════════════════════
 window.switchTab = (tabId,btn)=>{
   document.querySelectorAll(".tab-content").forEach(t=>t.style.display="none");
@@ -521,7 +626,7 @@ document.querySelectorAll(".modal-overlay").forEach(el=>
   el.addEventListener("click",e=>{if(e.target===el)el.classList.remove("open");}));
 
 // ═══════════════════════════════════════════════════════════
-//  Responses
+//  Admin Responses tab
 // ═══════════════════════════════════════════════════════════
 function populateFilters(){
   const fSub=document.getElementById("filter-subject");
@@ -609,7 +714,107 @@ window.confirmClearAll = async ()=>{
 };
 
 // ═══════════════════════════════════════════════════════════
-//  Student view
+//  BROWSE VIEW (read-only for students)
+// ═══════════════════════════════════════════════════════════
+function populateBrowseFilters(){
+  const fSub = document.getElementById("browse-filter-subject");
+  const fDoc = document.getElementById("browse-filter-doctor");
+  const prevSub = fSub.value;
+  fSub.innerHTML = '<option value="">كل المواد</option>' +
+    _subjects.map(s=>`<option value="${s.id}">${s.icon||''} ${s.name}</option>`).join("");
+  fSub.value = prevSub;
+  const selSub = _subjects.find(s=>s.id===fSub.value);
+  const docs = selSub ? selSub.doctors : _subjects.flatMap(s=>s.doctors);
+  fDoc.innerHTML = '<option value="">كل الدكاترة</option>' +
+    docs.map(d=>`<option value="${d.id}">${d.name}</option>`).join("");
+}
+
+window.onBrowseSubjectChange = ()=>{
+  // update doctor dropdown then re-render
+  const fSub = document.getElementById("browse-filter-subject");
+  const fDoc = document.getElementById("browse-filter-doctor");
+  const selSub = _subjects.find(s=>s.id===fSub.value);
+  const docs = selSub ? selSub.doctors : _subjects.flatMap(s=>s.doctors);
+  fDoc.innerHTML = '<option value="">كل الدكاترة</option>' +
+    docs.map(d=>`<option value="${d.id}">${d.name}</option>`).join("");
+  renderBrowse();
+};
+
+function renderBrowse(){
+  const sf = document.getElementById("browse-filter-subject").value;
+  const df = document.getElementById("browse-filter-doctor").value;
+  let resp = [..._responses];
+  if(sf) resp = resp.filter(r=>r.subjectId===sf);
+  if(df) resp = resp.filter(r=>r.doctorId===df);
+
+  // update count badge
+  document.getElementById("browse-count-badge").textContent = `${resp.length} سؤال`;
+
+  const area = document.getElementById("browse-area");
+  if(!resp.length){
+    area.innerHTML='<div class="empty"><span class="icon">📭</span>لا توجد أسئلة مسجلة حتى الآن</div>';
+    return;
+  }
+
+  // Group by subject then doctor
+  if(!sf && !df){
+    // group mode
+    let html = "";
+    for(const sub of _subjects){
+      const subResp = resp.filter(r=>r.subjectId===sub.id);
+      if(!subResp.length) continue;
+      html += `<div class="browse-group-header">${sub.icon||'📚'} ${sub.name} <span class="browse-group-count">${subResp.length}</span></div>`;
+      for(const d of sub.doctors){
+        const docResp = subResp.filter(r=>r.doctorId===d.id);
+        if(!docResp.length) continue;
+        html += `<div style="margin-right:16px;margin-bottom:8px">
+          <div style="font-size:13px;font-weight:700;color:var(--accent2);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+            <span>👤 ${d.name}</span>
+            <span style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.25);padding:2px 8px;border-radius:12px;font-size:11px">${docResp.length}</span>
+          </div>`;
+        docResp.forEach(r=>{
+          html += browseCard(r, sub, d, false);
+        });
+        html += `</div>`;
+      }
+    }
+    area.innerHTML = html || '<div class="empty"><span class="icon">📭</span>لا توجد أسئلة</div>';
+  } else {
+    // flat mode with badges
+    area.innerHTML = resp.map(r=>{
+      const sub=_subjects.find(s=>s.id===r.subjectId);
+      const d=sub?.doctors.find(d=>d.id===r.doctorId);
+      return browseCard(r, sub, d, true);
+    }).join("");
+  }
+}
+
+function browseCard(r, sub, d, showMeta){
+  const ts = r.ts ? new Date(r.ts.seconds?r.ts.seconds*1000:r.ts).toLocaleString('ar-EG') : '';
+  const metaHtml = showMeta ? `<div class="browse-card-meta">
+    <span class="meta-badge meta-subject">${sub?.icon||''} ${sub?.name||'مادة محذوفة'}</span>
+    <span class="meta-badge meta-doctor">👤 ${d?.name||'دكتور محذوف'}</span>
+  </div>` : '';
+  return `<div class="browse-response-card">
+    ${metaHtml}
+    <div class="browse-card-text">${r.text.replace(/\n/g,'<br>')}</div>
+    <span class="browse-card-time">🕐 ${ts}</span>
+  </div>`;
+}
+
+window.renderBrowse = renderBrowse;
+
+window.reloadAndBrowse = async ()=>{
+  document.getElementById("browse-area").innerHTML=
+    '<div class="loading-responses"><div class="spin"></div><br>جاري التحديث...</div>';
+  await loadAll();
+  populateBrowseFilters();
+  renderBrowse();
+  showToast("تم التحديث ✓");
+};
+
+// ═══════════════════════════════════════════════════════════
+//  Student submit view
 // ═══════════════════════════════════════════════════════════
 let selSubId=null, selDocId=null;
 
